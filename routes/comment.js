@@ -33,9 +33,6 @@ const commentCtrl = require('../controllers/comment');
  *               content:
  *                 type: string
  *                 description: Le nouveau texte du commentaire
- *               author:
- *                 type: string
- *                 description: L'auteur du commentaire
  *     responses:
  *       200:
  *         description: Commentaire mis à jour avec succès

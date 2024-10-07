@@ -3,7 +3,7 @@ const Comment = require('../models/Comment');
 // exports.createComment = (req, res, next) => {
 //     const { content, post_id, author } = req.body;
 //     const comment = new Comment({
-//         content_text: content,
+//         comment_text: content,
 //         post_id: req.body.postId,
 //         author: req.auth.userId
 //     });
@@ -13,7 +13,7 @@ const Comment = require('../models/Comment');
 // }
 
 exports.updateComment = (req, res, next) => {
-    Comment.updateOne({ _id: req.params }, { ...req.body, _id: req.params.id })
+    Comment.updateOne({ _id: req.params.id }, { comment_text: req.body.content, _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Commentaire modifié !' }))
         .catch(error => res.status(400).json({ error }));
 }
