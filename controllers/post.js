@@ -5,7 +5,7 @@ exports.createPost = (req, res, next) => {
     const post = new Post({
         title: title,
         content: content,
-        author: author,
+        author: req.auth.userId,
         tags: tags
     });
     post.save()

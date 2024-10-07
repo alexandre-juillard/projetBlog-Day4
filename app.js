@@ -30,6 +30,20 @@ const swaggerOptions = {
         url: 'http://localhost:3000', // L'URL de votre serveur local
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ['./routes/*.js'], // Indique où trouver les fichiers contenant les annotations
 };

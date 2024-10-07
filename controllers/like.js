@@ -3,7 +3,7 @@ const Like = require('../models/Like');
 exports.likePost = (req, res, next) => {
     const { user, post } = req.body;
     const like = new Like({
-        user: user,
+        user: req.auth.userId,
         post: post
     });
     like.save()

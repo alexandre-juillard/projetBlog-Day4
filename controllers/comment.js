@@ -4,7 +4,7 @@ exports.createComment = (req, res, next) => {
     const { content, author, post_id } = req.body;
     const comment = new Comment({
         content_text: content,
-        author: author,
+        author: req.auth.userId,
         post_id: post_id
     });
     comment.save()

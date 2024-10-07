@@ -38,7 +38,12 @@ exports.login = async (req, res) => {
 
     try {
         // Trouver l'utilisateur dans MongoDB
-        const user = await User.findOne({ username });
+        const user = await User.findOne({
+            $or: [
+                { email: req.body.email },
+                { username: req.body.username }
+            ]
+        })
         if (!user) {
             return res.status(400).json({ message: 'Utilisateur ou mot de passe incorrect.' });
         }
