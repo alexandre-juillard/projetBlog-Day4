@@ -3,44 +3,6 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 
 const commentCtrl = require('../controllers/comment');
-
-/**
- * @swagger
- * tags:
- *   name: Comments
- *   description: Gestion des commentaires
- */
-/**
- * @swagger
- * /comments:
- *   post:
- *     summary: Créer un nouveau commentaire
- *     tags: [Comments]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - content
- *               - post_id
- *             properties:
- *               content:
- *                 type: string
- *                 description: Le texte du commentaire
- *               post_id:
- *                 type: string
- *                 description: L'ID du post associé au commentaire
- *     responses:
- *       201:
- *         description: Commentaire créé avec succès
- *       400:
- *         description: Erreur lors de la création du commentaire
- */
-
-router.post('/posts/:postId/comments', auth, commentCtrl.createComment);
-
 /**
  * @swagger
  * /comments/{id}:
@@ -97,5 +59,40 @@ router.put('/:id', auth, commentCtrl.updateComment);
  */
 
 router.delete('/:id', auth, commentCtrl.deleteComment);
+
+/**
+ * @swagger
+ * /comments:
+ *   get:
+ *     summary: Récupérer tous les commentaires
+ *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Liste de tous les commentaires
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: L'ID du commentaire
+ *                   content_text:
+ *                     type: string
+ *                     description: Le contenu du commentaire
+ *                   author:
+ *                     type: string
+ *                     description: L'auteur du commentaire
+ *                   post_id:
+ *                     type: string
+ *                     description: L'ID du post auquel le commentaire est associé
+ *       400:
+ *         description: Erreur lors de la récupération des commentaires
+ */
+router.get('/', auth, commentCtrl.getComments);
 
 module.exports = router;

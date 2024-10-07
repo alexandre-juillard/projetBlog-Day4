@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const Comment = require('../models/Comment');
 
 exports.createPost = (req, res, next) => {
     const { title, content, author, tags } = req.body;
@@ -34,5 +35,17 @@ exports.updatePost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
     Post.deleteOne({ _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Post supprimé !' }))
+        .catch(error => res.status(400).json({ error }));
+}
+
+exports.commentPost = (req, res, next) => {
+    const { content } = req.body;
+    const comment = new Comment({
+        comment_text: content,
+        post_id: req.params.id,
+        author: req.auth.userId
+    });
+    comment.save()
+        .then(() => res.status(201).json({ message: 'Commentaire enregistré !' }))
         .catch(error => res.status(400).json({ error }));
 }

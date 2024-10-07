@@ -176,4 +176,39 @@ router.put('/:id', auth, postCtrl.updatePost);
 
 router.delete('/:id', auth, postCtrl.deletePost);
 
+/**
+ * @swagger
+ * /posts/{id}/comments:
+ *   post:
+ *     summary: Ajouter un commentaire à un post
+ *     tags: [Comments]
+ *     security:
+ *       - bearerAuth: [] 
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID du post auquel ajouter un commentaire
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - content
+ *             properties:
+ *               content:
+ *                 type: string
+ *                 description: Le contenu du commentaire
+ *     responses:
+ *       201:
+ *         description: Commentaire ajouté avec succès
+ *       400:
+ *         description: Erreur lors de l'ajout du commentaire
+ */
+router.post('/:id/comments', auth, postCtrl.commentPost);
+
 module.exports = router;
