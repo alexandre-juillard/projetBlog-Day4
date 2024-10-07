@@ -4,6 +4,7 @@ const router = express.Router();
 
 const Post = require('../models/Post');
 const postCtrl = require('../controllers/post');
+const likeCtrl = require('../controllers/like');
 
 /**
  * @swagger
@@ -210,5 +211,28 @@ router.delete('/:id', auth, postCtrl.deletePost);
  *         description: Erreur lors de l'ajout du commentaire
  */
 router.post('/:id/comments', auth, postCtrl.commentPost);
+
+/**
+ * @swagger
+ * /posts/{id}/like:
+ *   post:
+ *     summary: Liker un post
+ *     tags: [Likes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID du post à liker
+ *     responses:
+ *       201:
+ *         description: Le post a été liké avec succès
+ *       400:
+ *         description: Erreur lors du like du post
+ */
+router.post('/:id/like', auth, likeCtrl.likePost);
 
 module.exports = router;

@@ -5,6 +5,13 @@ const router = express.Router();
 const commentCtrl = require('../controllers/comment');
 /**
  * @swagger
+ * tags:
+ *   name: Likes
+ *   description: Gestion des commentaires
+ */
+
+/**
+ * @swagger
  * /comments/{id}:
  *   put:
  *     summary: Mettre à jour un commentaire

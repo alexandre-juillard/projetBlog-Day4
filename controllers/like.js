@@ -1,10 +1,9 @@
 const Like = require('../models/Like');
 
 exports.likePost = (req, res, next) => {
-    const { user, post } = req.body;
     const like = new Like({
         user: req.auth.userId,
-        post: post
+        post: req.params.id
     });
     like.save()
         .then(() => res.status(201).json({ message: 'J\'aime !' }))

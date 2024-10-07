@@ -11,32 +11,6 @@ const likeCtrl = require('../controllers/like');
  *   name: Likes
  *   description: Gestion des likes
  */
-/**
- * @swagger
- * /likes:
- *   post:
- *     summary: Liker un post
- *     tags: [Likes]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - post
- *             properties:
- *               post:
- *                 type: string
- *                 description: L'ID du post aimé
- *     responses:
- *       201:
- *         description: Post aimé avec succès
- *       400:
- *         description: Erreur lors de l'enregistrement du like
- */
-
-router.post('/', auth, likeCtrl.likePost);
 
 /**
  * @swagger
