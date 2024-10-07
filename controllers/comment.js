@@ -5,7 +5,7 @@ exports.createComment = (req, res, next) => {
     const comment = new Comment({
         content_text: content,
         author: req.auth.userId,
-        post_id: post_id
+        post_id: req.body.postId
     });
     comment.save()
         .then(() => res.status(201).json({ message: 'Commentaire enregistré !' }))

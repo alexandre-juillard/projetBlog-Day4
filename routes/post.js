@@ -26,7 +26,6 @@ const postCtrl = require('../controllers/post');
  *             required:
  *               - title
  *               - content
- *               - author
  *             properties:
  *               title:
  *                 type: string

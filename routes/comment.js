@@ -24,15 +24,11 @@ const commentCtrl = require('../controllers/comment');
  *             type: object
  *             required:
  *               - content
- *               - author
  *               - post_id
  *             properties:
  *               content:
  *                 type: string
  *                 description: Le texte du commentaire
- *               author:
- *                 type: string
- *                 description: L'auteur du commentaire
  *               post_id:
  *                 type: string
  *                 description: L'ID du post associé au commentaire
@@ -43,7 +39,7 @@ const commentCtrl = require('../controllers/comment');
  *         description: Erreur lors de la création du commentaire
  */
 
-router.post('/posts/:id/comments', auth, commentCtrl.createComment);
+router.post('/posts/:postId/comments', auth, commentCtrl.createComment);
 
 /**
  * @swagger

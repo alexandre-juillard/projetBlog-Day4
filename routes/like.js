@@ -24,12 +24,8 @@ const likeCtrl = require('../controllers/like');
  *           schema:
  *             type: object
  *             required:
- *               - user
  *               - post
  *             properties:
- *               user:
- *                 type: string
- *                 description: L'ID de l'utilisateur qui aime le post
  *               post:
  *                 type: string
  *                 description: L'ID du post aimé
