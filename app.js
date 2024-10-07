@@ -10,7 +10,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-mongoose.connect('mongodb+srv://alexandre:Txf7zow8J307dwmQ@cluster0.k98hw.mongodb.net/', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://alexandre:Txf7zow8J307dwmQ@cluster0.k98hw.mongodb.net/')
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
