@@ -12,6 +12,33 @@ const commentRouter = require('./routes/comment');
 
 var app = express();
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+
+// Configuration Swagger pour swagger-jsdoc
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Blogify API',
+      version: '1.0.0',
+      description: 'API de Blogify pour la gestion des utilisateurs, posts, commentaires et likes',
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000', // L'URL de votre serveur local
+      },
+    ],
+  },
+  apis: ['./routes/*.js'], // Indique où trouver les fichiers contenant les annotations
+};
+
+// Initialisation de swagger-jsdoc
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+// Swagger route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 mongoose.connect('mongodb+srv://alexandre:Txf7zow8J307dwmQ@cluster0.k98hw.mongodb.net/')
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
