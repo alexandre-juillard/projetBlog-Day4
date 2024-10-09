@@ -26,7 +26,14 @@ exports.register = async (req, res, next) => {
         // Sauvegarder l'utilisateur dans la base de données
         await newUser.save();
 
-        res.status(201).json({ message: 'Utilisateur enregistré avec succès.' });
+        res.status(201).json({
+            message: 'Utilisateur enregistré avec succès.',
+            user: {
+                username: newUser.username,
+                email: newUser.email,
+                id: newUser._id
+            }
+        });
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la création de l\'utilisateur.', error });
     }
