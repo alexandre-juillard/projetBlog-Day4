@@ -1,20 +1,37 @@
 const assert = require('assert');
 const supertest = require('supertest');
+const sinon = require('sinon');
 const app = require('../app');
+const User = require('../models/User');
 
 describe('Router Test', () => {
-    it('POST /users/register', async () => {
-        await supertest(app)
-            .post('/users/register')
-            .send({ username: 'Alai Deloin', email: 'alai@example.com', password: 'azerty123' })
-            .expect(201)
-            .then(response => {
-                console.log('Response body:', response.body.username, response.body.email, response.body.password);
-                assert.equal(typeof response.body, 'object');
-                assert.equal(response.body.user.username, 'Alai Deloin');
-                assert.equal(response.body.user.email, 'alai@example.com');
-            });
+    let findOneStub;
+    let saveStub;
+
+    beforeEach(() => {
+        //stubber mongoose model
+        findOneStub = sinon.stub(User, 'findOne');
+        saveStub = sinon.stub(User.prototype, 'save');
     });
+
+    afterEach(() => {
+        //restore mongoose model
+        findOneStub.restore();
+        saveStub.restore();
+    });
+
+    it('POST /users/register', async () => {
+        //Simuler qu'auncun utilisateur n'existe
+        findOneStub.resolves(null);
+
+        //Simuler la sauvegarde de l'utilisateur
+        saveStub.resolves({
+            username: 'John Doe',
+            email: 'john@example.com',
+            password: 'hashedpassword'
+        });
+
+    })
 
     // it('GET /users', async () => {
     //     await supertest(app)

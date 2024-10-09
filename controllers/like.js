@@ -1,11 +1,23 @@
 const Like = require('../models/Like');
+const Counter = require('../models/Counter');
 
-exports.likePost = (req, res, next) => {
+async function getNextSequenceValue(sequenceName) {
+    const sequenceDocument = await Counter.findByIdAndUpdate(
+        sequenceName,
+        { $inc: { seq: 1 } },
+        { new: true, upsert: true }
+    );
+    return sequenceDocument.seq;
+}
+
+exports.likePost = async (req, res, next) => {
+    const likeId = await getNextSequenceValue('likeId');
     const like = new Like({
+        _id: likeId,
         user: req.auth.userId,
         post: req.params.id
     });
-    like.save()
+    await like.save()
         .then(() => res.status(201).json({ message: 'J\'aime !' }))
         .catch(error => res.status(400).json({ error }));
 }

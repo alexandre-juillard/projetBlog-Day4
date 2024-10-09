@@ -1,9 +1,21 @@
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
+const Counter = require('../models/Counter');
 
-exports.createPost = (req, res, next) => {
+async function getNextSequenceValue(sequenceName) {
+    const sequenceDocument = await Counter.findByIdAndUpdate(
+        sequenceName,
+        { $inc: { seq: 1 } },
+        { new: true, upsert: true }
+    );
+    return sequenceDocument.seq;
+}
+
+exports.createPost = async (req, res, next) => {
     const { title, content, author, tags } = req.body;
+    const postId = await getNextSequenceValue('postId');
     const post = new Post({
+        _id: postId,
         title: title,
         content: content,
         author: req.auth.userId,
@@ -38,9 +50,11 @@ exports.deletePost = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 }
 
-exports.commentPost = (req, res, next) => {
+exports.commentPost = async (req, res, next) => {
     const { content } = req.body;
+    const commentId = await getNextSequenceValue('commentId');
     const comment = new Comment({
+        _id: commentId,
         comment_text: content,
         post_id: req.params.id,
         author: req.auth.userId

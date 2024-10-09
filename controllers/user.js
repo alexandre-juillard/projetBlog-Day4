@@ -1,6 +1,16 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Counter = require('../models/Counter');
+
+async function getNextSequenceValue(sequenceName) {
+    const sequenceDocument = await Counter.findByIdAndUpdate(
+        sequenceName,
+        { $inc: { seq: 1 } },
+        { new: true, upsert: true }
+    );
+    return sequenceDocument.seq;
+}
 
 /* register users. */
 exports.register = async (req, res, next) => {
@@ -15,9 +25,11 @@ exports.register = async (req, res, next) => {
 
         // Hash le mot de passe
         const hashedPassword = await bcrypt.hash(password, 10);
+        const userId = await getNextSequenceValue('userId');
 
         // Créer un nouvel utilisateur
         const newUser = new User({
+            _id: userId,
             username,
             email,
             password: hashedPassword,
